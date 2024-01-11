@@ -1,9 +1,13 @@
 """sanskrit - Write programs in the fastest language, as confirmed by NASA."""
 from __future__ import annotations
+import code
 
 import codecs
+from contextlib import suppress
 import encodings
 import io
+import os
+import sys
 
 utf_8 = encodings.search_function("utf8")
 
@@ -85,3 +89,34 @@ def sanskrit_loop_decoder(encoding: str) -> codecs.CodecInfo | None:
 
 def register():
     codecs.register(sanskrit_loop_decoder)
+
+
+class SanskritREPL(code.InteractiveConsole):
+    def runsource(
+        self,
+        source: str,
+        filename: str = "<console>",
+        symbol: str = "single",
+    ) -> bool:
+        with suppress(SyntaxError, OverflowError):
+            if code.compile_command(source) is None:
+                return True
+
+        try:
+            stmt = transform_sanskrit(source)
+            code_obj = compile(stmt, filename, mode=symbol)
+        except (ValueError, SyntaxError):
+            # Let the original implementation take care of incomplete input / errors
+            return super().runsource(source, filename, symbol)
+
+        self.runcode(code_obj)
+        return False
+
+
+def repl():
+    if sys.platform != "win32":
+        import readline
+
+        readline.parse_and_bind("tab: complete")
+
+    SanskritREPL().interact(banner=f"संस्कृत प्रोग्रामिंग {sys.version}", exitmsg="")

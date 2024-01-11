@@ -12,12 +12,28 @@ Now put a `# coding: sanskrit` comment above your code to start programming in s
 
 ## Usage
 
+There's two ways to use `sanskrit`:
+
+### As a REPL
+
+Simply type `sanskrit` and it will bring up the `sanskrit` REPL:
+
+```pycon
+$ sanskrit
+संस्कृत प्रोग्रामिंग 3.11.5 (main, Aug 24 2023, 15:09:45) [Clang 14.0.3 (clang-1403.0.22.14.1)]
+>>> x = 42
+>>> दर्शयतु(x)   # print(x)
+42
+```
+
+### In a project
+
 - Simple for loop:
 
   ```python
   # coding: sanskrit
   सर्वेषां आई अन्तः सीमा(5):   # for i in range(5):
-      दर्शयतु(आई)         #     print(i)
+      दर्शयतु(आई)          #     print(i)
   ```
 
   Output:
